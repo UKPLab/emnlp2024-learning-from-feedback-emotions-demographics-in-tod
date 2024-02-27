@@ -1,0 +1,7 @@
+apikey
+__pycache__
+.DS_Store
+dialog_11.json
+.vscode
+generated_dialogs
+job_output

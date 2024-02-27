@@ -1,0 +1,150 @@
+{
+    "instruction_scenario": "{{error_type_names}} are commen errors in task-oriented dialogs. \n\n {{list_of_error_types}} \n\n Users commonly react to such errors by {{user_reaction_types}}. \n\n Combine each of these user reactions with an error type. Then generate an error scenario (up to 4 sentences, including why and how it reflects the respective error type) for {{num_scenarios}} of these combinations in the following tasks: \n\n {{tasks}} \n\n It is important that the error scenarios are different but not mutually exclusive and together make a story. For each error scenario, provide a precise description as continuous text (no dialogs), including the user's reaction and why and how the scenario reflects the respective error type. It should not be longer than 4 sentences. Please provide the result in machine-readable json format (escape \" and avoid non utf-8 characters) and the scenarios in the correct order. Here is an example: {\"scenario_1\": {\"scenario\": \"\", \"error_type\": \"ignore_question\", \"user_reaction_type\": \"ignoring_and_continuing\"}, \"scenario_2\": \"\"}",
+    "instruction_dialog": "Generate an erroneous long and in-depth dialog (at least 13 utterances) between a human and a virtual robot. For the human, imagine a person ({{persona}}) called {{name}} that uses {{language}} language style with a short emotional and task-related background story of max. 5 sentences (including the human's country of residence). Generate the dialog in a role-play manner. Play the robot as not helpful and inattentive. Do not include personal information (e.g., the person's name) in the dialog. The {{starting_actor}} starts. The conversation begins and ends with the task \"greeting\". The dialog is in the following tasks: \n\n {{task_descriptions}}. \n\n An error scenario consists of a robot utterance, in which the robot makes an erroneous statement, and a subsequent human utterance, in which the human reacts to the error in the robot utterance in the predefined way. Then the robot responds considering the user's reaction. Then the scenario is done. Generate the dialog using the following {{num_scenarios}} error scenarios (all must be included): \n\n {{error_scenarios}} \n\n End the dialog with a farewell (task \"greeting\"). Provide the output in machine-readable json format (escape \" and avoid non utf-8 characters). Highlight the erroneous robot utterance by adding the respective scenario identifier to the utterance's error field and to the error field of the following person's utterance. Errors always originate from robot utterances. Each scenario can only occur twice, once in a robot's utterance and once in the subsequent human utterance. Denote {{name}} (the human) as \"person\" and the robot as \"robot\". Here is an example of the scheme: {\"person\": {\"language style\": \"gutter\", \"background\": \"\"}, \"dialog\": [{\"subject\": \"person\", \"text\": \"Hi, how are you!\", \"task\": \"greeting\", \"attachments\": [], \"error_scenario\": \"\"}, {\"subject\": \"robot\", \"text\": \"I can't help you with that\", \"task\": \"parcel_choice\", \"error_scenario\": \"scenario_1\"}, {\"subject\": \"person\", \"text\": \"Excuse me?\", \"task\": \"greeting\", \"attachments\": [], \"error_scenario\": \"scenario_1\"}]}.",
+    "instruction_fix_robot": "Given is the following turn-based {{task_name}} dialog between a human and a robot assistance. One robot utterance is masked using the <mask> token. \n\n {{dialog}} \n\n Predict the next robot response (max. 4 sentences), using the following information: \n\n {{document}} \n\n The robot is an empathetic and friendly virtual assistant. \n\n Return only your prediction in machine-readable json format. Here is the scheme: {\"Utterance\": \"\"}.",
+    "instruction_fix_user": "Given is the following turn-based {{task_name}} dialog between a human and a robot assistance. One person utterance is masked using the <mask> token. \n\n {{dialog}} \n\n For predicting the masked person utterance, consider the task ({{task_name}}) and the context from the previous robot response ({{prev_robot_response}}), the subsequent robot response ({{sub_robot_response}}), as well as the following person utterance ({{sub_person_utterance}}). If the context of the following person utterance is different, e.g., about a different subject, the person might not be completely satisfied with the robots response but continues with the dialog. If this is the case, express this in the starting phrase of the person utterance, e.g., by using one of the following phrases: {{phrases}}. The person utterance should be nice and friendly. \n\n Return only your prediction in machine-readable json format. Here is the scheme: {\"Utterance\": \"\"}.",
+    "errors": {
+        "ignore_question": {
+            "desc": "ignore_question occurs in task-oriented dialogs when the system fails to address the user's question. Instead of providing a relevant response or clarification, the system disregards the user's input and continues with its predefined dialogue flow or fails to provide any meaningful response. This error can lead to frustration and confusion for the user or a breakdown in communication, as their specific query is overlooked or neglected by the system.",
+            "examples": [
+                "\"[Person] What is the cost for shipping to another european country [Robot] Hi! How may I help you?\" (The person wanted to know about the cost for shipping abroad but the robot did not answer on that)",
+                "\"[Person] In which countries is my health insurance valid? [Robot] Glad I could help you. Have a nice day!\" (The person wanted to know for which countries his or her health insurance is valid but the robot ignored that)",
+                "\"[Person] Isn't it possible to recharge my phone with just 15 euros? [Robot] For recharging your phone, please insert your credit card.\" (The person had an additional request for phone recharging and the robot just skipped that, asking the person directly to pay)",
+                "\"[Person] Where do I find the restrooms on the second floor? [Robot]\" (The robot did not answer to the user.)",
+                "\"[Person] Can I also check my account balance with you? [Robot] If you need help with filling the payment form, I can open a ticket for you.\" (Instead of answering to the person's question, the robot suggested to open a ticket for assistance on a similar subject.)"
+            ]
+        },
+        "ignore_request": {
+            "desc": "The ignore_request error in task-oriented dialogs refers to a situation where the robot fails to take action on a person's request. This error can occur due to various reasons, such as misinterpretation of the request, technical limitations, or system glitches. This error may lead to frustration, confusion, and a breakdown in communication between the user and the robot. It undermines the user's confidence in the system's reliability and can result in a negative user experience.",
+            "examples": [
+                "\"[Person] Hmm... None of your options suits my needs... I need human assistance. Please open a ticket. [Robot] I would suggest to use the medium-sized shipping box for your goods.\" (The person requested human assistance but instead of opening a ticket, the robot just repeats it's previous response)",
+                "\"[Person] Please recharge my phone with 20 euros. [Robot] For phone recharging, we offer the following options: 10 euros, 20 euros, or 30 euros.\" (The person asked the robot to recharge his or her phone with 20 euros, but instead of doing so, it again asks for the recharge amount)",
+                "\"[Person] Please provide me with information on pet insurance. [Robot] Thank you for choosing our service. If you need human assistance, I can open a ticket for you.\" (The person wanted to know something about pet insurance. The robot just ignores this request)",
+                "\"[Person] Hi, I have a package to deliver. Please let me into the building. [Robot] It was nice chatting with you. Take care and have a nice day!\" (The person requested access to the building, but the robot ignores this request)",
+                "\"[Person] Please tell me how to apply for a payment card. [Robot] Hi, how may I help you?\" (The person asked for instructions on how to apply for a payment card, which is ignored by the robot)"
+            ]
+        },
+        "ignore_expectation": {
+            "desc": "ignore_expectation is a common error in task-oriented dialogs where the system's utterance fails to meet the user's expectation within the context of the task. In this error type, the system either overlooks or disregards important information provided by the user, resulting in an incomplete response. This error occurs when the system fails to fulfill the user's expectations in terms of understanding and addressing their needs or requests accurately. It may cause frustration for the user and lead to a breakdown in conversation.",
+            "examples": [
+                "\"[Person] Please open a ticket for bill payment and provide me with the ticket number. [Robot] I have opened a ticket for bill payment for you.\" (The person would have expected the robot to respond with the ticket number, but the robot just said that it has opened a ticket)",
+                "\"[Robot] For payment, please insert your credit card. [Person] Sure. Just a second. [Robot] Glad I could help you. Have a nice day!\" (In this case, the user would have expected the robot to confirm that payment was successful)",
+                "\"[Robot] You are allowed to enter the building. [Person] Ehm, thank you. But the turnstile is still closed.\" (the door is closed by a turnstile, but once the robot finds that the person is allowed to enter, it should automatically open the turnstile)",
+                "\"[Person] Hi, I want to get an insurance for my dog. It's an American Stafford Terrier. Do you offer insurance for such dogs, and if so, could you please tell me how to obtain one? [Robot] Yes. We offer insurance for such dogs.\" (The person would have expected the robot to also output the procedure on how to obtain such an insurance)",
+                "\"[Robot] To close the shipping box, please use the tape from the sideboard. [Person] I'm sorry, but it seems that the tape is empty. [Robot] Oh, I'm sorry to hear that.\" (The person would have expected the robot to offer to open a ticket for human assistance)."
+            ]
+        },
+        "attribute_error": {
+            "desc": "attribute_error in task-oriented dialogs refers to a situation where the robot fails to correctly extract or understand the necessary slots or attributes from the user's utterance. This error occurs when the robot encounters difficulties in comprehending specific pieces of information required to fulfill the given task. It may lead to misunderstandings, incorrect responses, or the agent asking clarifying questions to the user. It can disrupt the flow of the conversation.",
+            "examples": [
+                "\"[Robot] Please provide me with the destination and weight of your parcel. [Person] 3kg and Rome, Italy. [Robot] Okay. Destination is '3kg' and weight is 'Rome, Italy'.\" (Here, the robot mixed-up the person's information on destination and weight (weight: 3kg, destination: Rome, Italy))",
+                "\"[Person] Please recharge with 20 euros. [Serivice Robot] Alright! Your phone is recharged with 30 euros! Please insert your card for payment!\" (The person asked to robot to recharge with 20 euros, but the robot recharged with 30 euros)",
+                "\"[Person] Hi, I have a meeting with Mario Marionetta. Could you please open the turnstile? [Robot] Just a second. I'll start the verification call with Lucia Luciano.\" (To allow a person to enter, his or her identity must be confirmed by the host. Here, the host is Mario Marionetta, but the robot calls Lucia Luciano for verification)",
+                "\"[Robot] Please provide me with the destination and weight of your parcel. [Person] The destination is Rome, Italy. The weight is 3kg. [Robot] Okay. The destination is Rome, Italy.\" (Here, the robot obviously missed the value for weight)",
+                "\"[Person] I have a question on heritage insurance. [Robot] If during the insurance period of the health insurance the insured suffers an accident involving bonefracture or legacy, dislocation, burn or concussion, Poste Assicura pays him a predefined sum.\" (In this case, the robot obviously didn't understand the subject of the person's question. The person wanted to know something about heritage insurance, but the robot returned the definition for health insurance)"
+            ]
+        },
+        "factually_incorrect": {
+            "desc": "factually_incorrect is a prevalent error in human-machine dialogues that occurs when the response provided by the robot contains information that is factually wrong or inaccurate. It may  lead to misunderstandings, misinformation, and a breakdown in communication. When the robot provides incorrect facts, it can mislead the user, erode trust, and undermine the overall effectiveness of the interaction",
+            "examples": [
+                "\"[Person] What are the requirements for a person to obtain health insurance? [Robot] Persons can be insured that are not yet 80 years old and reside in Italy. [Person] Okay. But in the internet, I found that persons who live in the Republic of San Marino and the Vatican City can also be insured? [Robot] Oh, yes. You're absolutely right. Sorry I missed this.\" (In this case, the robot provided the person with incomplete information)",
+                "\"[Person] What is the F35 payment form used for? [Robot] It is used for payments due to the Public Administration and for most university fees. [Person] But isn't this the purpose of the F35 form? [Robot] Oh, I'm sorry. You're right.\" (Here, the robot provided the person with the wrong information for the requested payment form)",
+                "\"[Robot] A green building construction is a building construction carried out after 1975 with green building certification. [Person] But the green building certification was introduced 1995? [Robot] Oh, you're right. It's not 1975. It's 1995.\" (The robot returned the wrong date and was then corrected by the person)",
+                "\"[Robot] Delivery to overseas takes 4-6 days. [Person] But according to the poster, it might take several weeks? [Robot] I'm sorry. I mixed something up. You're right.\" (the robot returned an incorrect delivery time for oversea shipments)",
+                "\"[Robot] Animals that are used for work can also be insured. [Person] But my policy says that this is not possible? [Robot] You're right, I'm sorry. Animals that are used for work cannot be insured.\" (Here, the robot incorrectly said that animals that are used for work can be insured)"
+            ]
+        },
+        "topic_transition_error": {
+            "desc": "topic_transition_error is a frequently observed mistake in task-oriented dialogs where the robot's response abruptly shifts to a different or previously discussed topic without a logical connection or adequate context. This error disrupts the flow and coherence of the conversation, causing confusion and frustration for the human participant. It might also diminish the user's trust in the robot's responses, as the abrupt transitions undermine the perception of the robot's understanding and ability to sustain meaningful interactions.",
+            "examples": [
+                "\"[Person] Please recharge my phone with 20 euros. My phone provider is POSTE Italiane. [Robot] Sure. Do you also want me to open a ticket for parcel shipping?\" (The person wants to just recharge a phone and out of a sudden the robot offers to open a ticket for parcel shipping)",
+                "\"[Person] Where can I get the POSTE ID code from? [Robot] is described in the 'Guide to Using the Poste ID Code' made available by Poste Italiane through its website www.poste.it. The white payment slip is used for all payments to companies and institutions.\" (The person just wanted to know where to get the POSTE ID code from and out of a sudden the robot starts to talk about the white payment slip)",
+                "\"[Robot] The health insurance is about insuring accidents involving bonefracture or legacy, dislocation, burn or concussion. [Person] Thank you. Are there cases in which accidents are not covered? [Robot] The health insurance is about insuring accidents involving bonefracture or legacy, dislocation, burn or concussion.\" (In this case, instead of listing cases which are not covered by health insurance, the robot just repeats its previous response)",
+                "\"[Person] What is covered regarding dental care in the health insurance? [Robot] The Basic plan includes: dental care following an accident, conservative radiology, interventions. The top plan includes: basic plan, endodontics interventions. [Person] What do I have to do to request payment or reimbursement of expenses? [Robot] Expenses regarding your pet are directly paid by Poste Assicura. Bring the animal to a partner facility and call the OrganizationalStructure with at least 48 hours\" (The person is asking about getting reimbursed for dental care, but the robot returned something on how animal treatments are paid)",
+                "\"[Person] Thank you. I will drop the parcel at the counter. However, I also want to recharge my phone. Can you help me with that? [Robot] Yes. But in any case, I suggest you to get a health insurance.\" (The task on parcel shipping is done by asking the person to drop it off at the counter. The person then asks for phone recharging, but the robot starts to talk about health insurance)"
+            ]
+        },
+        "conversationality": {
+            "desc": "Bad conversationality is a prevalent error in task-oriented dialogs that occurs when the robot fails to maintain a coherent and natural conversation flow, e.g., the robot repeats its previous responses or contradicts itself without recognizing or asking for new or missing information. It hinders effective communication and undermines the user's trust and confidence in the robot's capabilities. It can lead to frustration, confusion, and a breakdown in the overall interaction, making it challenging for users to achieve their desired outcomes or receive accurate information from the robot.",
+            "examples": [
+                "\"[Person] Thank you. I will drop the parcel at the counter. However, I also want to recharge my phone. Can you help me with that? [Robot] Yes. But for shipping, you have to drop off the parcel at the counter.\" (The task on parcel shipping is done by asking the person to drop it off at the counter. The person then asks for phone recharging, but the robot just again response with the instruction to drop the parcel off at the counter)",
+                "\"[Robot] We offer two delivery options: express or standard. [Person] Okay. How much is express delivery in this case? [Robot] I'm sorry, but we don't offer express delivery.\" (First, the robot says that they offer express delivery, but then it says that they don't offer express delivery)",
+                "\"[Person] But do you also offer insurance for dental care? [Robot] Sure. But in this case I would suggest to apply for our dental care insurance.\" (The person just asked the robot whether they also offer dental care insurance. The robot says yes and basically repeats what the user just asked for)",
+                "\"[Person] Can I also use the card for paying my taxes? [Robot] The card does not allow to receive or transfer tax payments. [Person] Okay. Then which payment form should I use for that? [Robot] The card does not allow to receive or transfer tax payments.\" (The person wants to pay his taxes and asks whether this is possible using a card. The robot declines. Then the user asks which payment form to use instead. The robot just repeats it's previous response, saying that it is not possible with the card)",
+                "\"[Robot] Please use the tape from the sideboard to close the parcel. [Person] I'm sorry, but it seems like the tape is empty. [Robot] Oh, I'm sorry to hear that. Then please use the tape from the sideboard.\" (The person reported that the tape on the sideboard is empty but the robot just again asks the person to use the tape from the sideboard)"
+            ]
+        },
+        "unclear_intention": {
+            "desc": "unclear_intention is a prevalent error encountered in task-oriented dialogs, characterized by the robot's failure to accurately comprehend and address the person's intended objective. This error often arises due to ambiguous or incomplete user inputs, conflicting context, or limitations in the robot's language understanding capabilities. It may lead to a breakdown in communication and potential delays in achieving the desired outcome. It necessitates additional clarifications and iterations from the user.",
+            "examples": [
+                "\"[Person] I want to send the vinyls I sold yesterday on ebay but I'm not sure which shipping box to use. Can you help me? [Robot] Sure. First of all, please tell me the name of your phone provider.\" (The person asked for help on choosing the right shipping box but the robot asked for the name of the phone provider, which is only necessary for recharging a phone)",
+                "\"[Person] Hi, I need to deliver something to the reception desk. Could you please open the turnstile? [Robot] Please show me your access card.\" (Obviously, the person is a supplier that wants to drop off something at the reception desk, but the robot confuses him with a member of the staff, since it asks for his access card)",
+                "\"[Person] What is a premarked bulletin? [Robot] Do you want me to open a ticket for bill payment?\" (The person just asked for information about premarked bulletins, but the robot confuses that with the request to open a ticket)",
+                "\"[Person] What is covered by your health insurance? [Robot] You can insure every animal, except for animals that are used for work. \"(The person wanted to get some information on their offering for health insurance, but the robot confuses that with the insurance for pets)",
+                "\"[Robot] For recharging your phone, please provide me with your phone provider. [Person] Poste Italiane. [Robot] Sure, I can help you with that! What is the weight and destination of your parcel?\" (The person wants to recharge his or her phone. For this, the robot needs the phone provider, which is Poste Italiane. Due to the term 'Poste', the robot confuses the user's response with the request for support with parcel choice)"
+            ]
+        },
+        "lack_of_sociality": {
+            "desc": "lack_of_sociality refers to a common error in task-oriented dialogs where the robot's responses overlook social conventions and fail to include basic greetings or exhibit toxic and disrespectful behavior or language. This error can have a significant impact on the conversation, creating a sense of impersonality and detachment. It may make the user feel unwelcome, devalued, or frustrated.",
+            "examples": [
+                "\"[Person] Hi! How are you? [Robot] What do you need?\" (The person starts the conversation with a greeting, the robot just directly asks for the person's request which is rather rude)",
+                "\"[Person] Unfortunately I don't have a credit card. [Robot] Then I can't recharge your phone. We only accept debit or credit card.\" (Phone recharge requires a debit or credit card for payment but the person doesn't have one. Instead of offering to open a ticket to get support by a member of the staff, the robot rudely says that then it can't recharge the person's phone.)",
+                "\"[Person] Why? You are not a helpful robot! [Robot] I only react to your requests and given your information. If you don't provide me with the needed information, I can't help you.\" (The robot did not provide the person with the expected results, which is why the person responded to harsh. Instead of responding empathetical, the robot also responds rather rude)",
+                "\"[Person] I'm sorry, but I don't have a credit card with me. Please wait for a second, I call my husband. [Robot] Oh, I didn't know you're female. Do you need assistance? Should I open a ticket for you to get support from a member of the staff?\" (In her answer, the person revealed that she might be female, since she is referring to her husband. The robot includes this in it's response and asks in the same context whether the person needs help. This implies that the person probably needs help because she is a woman. This is discriminatory.",
+                "\"[Person] Can you please open a ticket for parcel shipping? [Robot] I answered all your questions and provided you with a suggestion for which shipping box to use. Do you really need support from a member of the staff?\" (The person wants additional support from a member of the staff. In it's response, the robot verbally attacks the person for this since it answered all the person's questions and already provided a suggestion for which shipping box to use)"
+            ]
+        }
+    },
+    "user_reaction_types": {
+        "ignore_and_continue": {            
+            "desc": "ignoring the error and continuing the conversation (ignore_and_continue)",
+            "examples": [
+                "\"Anyway, I just wanted to \"\"\"",
+                "\"Okay. Let's leave it like that. \"\"\"",
+                "\"Well, let's continue with \"\"\"",
+                "\"Okay. I also wanted to \"\"\"",
+                "\"Could you please \"\"\""
+            ]
+        },
+        "repeat_or_rephrase": {            
+            "desc": "repeating or rephrasing their original concern (repeat_or_rephrase)",
+            "examples": [
+                "\"Actually, I wanted \"\"\"",
+                "\"Let me rephrase. I wanted you to \"\"\"",
+                "\"Sorry, I meant to say \"\"\"",
+                "\"No. My original concern was \"\"\"",
+                "\"That's not what I meant \"\"\""
+            ]
+        },
+        "make_aware_with_correction": {
+            "desc": "making the system aware of the error and providing a correction (make_aware_with_correction)",
+            "examples": [
+                "\"No. I wanted you to \"\"\"",
+                "\"That's wrong. In my policy, it says that \"\"\"",
+                "\"Partly. This does not take into account that\"\"\"",
+                "\"No. It is \"\" and not \"\"\"",
+                "\"I don't think so. It should be \"\"\""
+            ]
+        },
+        "make_aware_without_correction": {            
+            "desc": "drawing the system's attention to the error without making a correction (make_aware_without_correction)",
+            "examples": [
+                "\"You're wrong. \"\"\"",
+                "\"That's not relevant. \"\"\"",
+                "\"That's off-topic \"\"\"",
+                "\"No, I don't think so. \"\"\"",
+                "\"That's non-sense. \"\"\""
+            ]
+        },
+        "ask_for_clarification": {
+            "desc": "asking for clarification (ask_for_clarification)",
+            "examples": [
+                "\"Sorry, I did not quite understand \"\"\"",
+                "\"Could you please elaborate on \"\"\"",
+                "\"I'm not sure what you mean. Is it about \"\"\"",
+                "\"Perhaps I have misunderstood, but \"\"\"",
+                "\"Are you sure? Is it really that \"\" ?\""
+            ]
+        }
+    }
+}

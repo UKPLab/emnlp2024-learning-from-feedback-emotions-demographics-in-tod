@@ -1,0 +1,14 @@
+dialogs: /prompts/dialog_generation.json
+error_dialogs: /prompts/error_generation.json
+names: /prompts/names.json
+occupations: /prompts/occupations.txt
+annotations:
+  additional: /prompts/additional_annotations.json
+  intents: /prompts/intent_generation.json
+  slots: /prompts/slot_generation.json
+documents:
+  finance: /prompts/documents/finance
+  general: /prompts/documents/general
+  health: /prompts/documents/health
+  heritage: /prompts/documents/heritage
+  pet: /prompts/documents/pet
