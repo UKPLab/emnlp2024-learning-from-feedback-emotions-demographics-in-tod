@@ -13,12 +13,45 @@ In this repository, we provide the generation framework and example scripts for 
 ## Dataset Description
 FEDI covers four use cases for task-oriented document-grounded dialogue systems from three domains:
 
-- __Post Office Services:__ For post office services, FEDI includes (1) customer support for parcel shipping, i.e., guiding them through the process of parcel shipping from choosing the right shipping box to informing them about the approximate delivery time, and (2) topping up a prepaid SIM card. 
-- __Receptionist Service:__ As receptionist service, FEDI includes access control, i.e., the reception and registration of new visitors in office buildings.
-- __Customer Service in the Insurance Domain:__ As customer service in the insurance domain, FEDI includes question answering in the context of financial topics and pet, health and heritage insurance. These dialogues additionally provide document annotations.
+- __Post Office Services:__ For post office services, FEDI includes (1) customer support for parcel shipping, i.e., guiding them through the process of parcel shipping from choosing the right shipping box to informing them about the approximate delivery time, and (2) topping up a prepaid SIM card. Following are the slot values for this task:
+  - Parcel Shipping:
+    - Destination (informable) -- The city and country of destination; national or international.
+    - Weight (informable) -- The weight of the item to be shipped, lightweight (up to 5kg), average (up to 20kg), heavy (up to 30kg).
+    - Package required (informable) -- Whether or not a new shipping box is required.
+    - Delivery option (informable) -- Express or standard delivery.
+    - Country of destination (informable) -- The destination country.
+    - Shipping box name (requestable) -- Name of the best suitable shipping box (small-sized, medium-sized, large-sized), based on the weight of the item to be sent.
+    - Shipping box description (requestable) -- Brief description on why the suggested shipping box is the best option.
+    - Shipping procedure (requestable) -- Description of the shipping procedure (e.g., take the box to the counter...).
+    - Shipping time (requestable) -- Expected delivery time, one to three days for national, four to six days for european, and 3-4 weeks for international deliveries.
+  - Top Up SIM Card:
+    - Phone number (informable) -- Table or mobile phone number with country code.
+    - Phone provider (informable) -- The prone provider, e.g., Vodafone, POSTE Mobile, ...
+    - Import payment (informable) The recharge amount, e.g., 10 euro, 20 euro, 30 euro.
+    - Outcome operation (requestable) -- If all required information were provided, the system asks the user to insert the card for payment.
+  -  Request Ticket:
+      - Type of service (informable) -- The type of service for which the user wants to request support, i.e., parcel shipping or topping up a prepaid SIM card.
+      - Ticket number (requestable) -- The ticket number generated for the request.
+- __Receptionist Service:__ As receptionist service, FEDI includes access control, i.e., the reception and registration of new visitors in office buildings. Following are the slot values:
+  - Guest name (informable) -- The name of the person who wants to access the building.
+  - Host name (informable) -- The name of the person the guest wants to visit.
+  - Host e-mail (informable) -- The e-mail address of the host.
+  - Alternative host name (informable) -- An alternative host, e.g., in case the host is not available.
+  - Alternative host e-mail (informable) -- E-mail address of the alternative host.
+  - Meeting date and time (informable) -- Date and time of the appointment.
+  - Meeting room identifier (informable) -- Unique identifier of the room where the meeting will take place.
+  - Verification call (requestable) -- The system can set up a verification call to let the host visually inspect the guest and authorize access.
+  - Confirmation to open turnstile (requestable) -- This is a signal to the system that controls the turnstile to let the guest enter.
+  - Add. safety information (requestable) -- Any additional safety information, e.g., related to Covid-19.
+- __Customer Service in the Insurance Domain:__ As customer service in the insurance domain, FEDI includes question answering in the context of financial topics and pet, health and heritage insurance. These dialogues additionally provide document annotations. Following are the slot values:
+  - Question (informable) -- A question to one of the topics.
+  - Type of bills (informable) -- If the user asks a question regarding a specific payment slip, they need to provide the type.
+  - Evidence (requestable) -- The answer to the user's question.
+  - Bill form description (requestable) -- Description of the specific payment form (if the question was about a payment form).
+  - Bill form name (requestable) -- Name of the payment form (if the question was about a payment form).
+  - Bill form paymend procedure (requestable) -- Information on how to fill the payment form (if the question was about a payment form).
 
-We provide the list of slot values and intents for each task in Appendix A of our paper.
-
+We provide more details on the task descriptions in Appendix A of our paper.
 ### Problem formulation
 We define a dialogue as a set of multiple turns $T$. Each turn consists of two utterances, a user utterance $U_t$ and a system utterance $S_t$. Given the dialogue context $C=[T_0, ..., T_{t-1}]$, and additional information $K$, the task is to predict the user intent $I_t$, generate belief state $B_t$ and system utterance $S_t$:
 
