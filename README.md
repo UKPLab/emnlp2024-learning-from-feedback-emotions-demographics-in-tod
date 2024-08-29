@@ -4,7 +4,7 @@
 <img align="center" src="resources/disclaimer.png" alt="drawing" width="800"/>
 </p>
 
-In this repository, we provide the generation framework and example scripts for using the FEDI data. FEDI is the first task-oriented document-grounded dialogue dataset for learning from demographic information, user emotions and implicit user feedback. In its current version, FEDI consists of 8,852 dialogues, divided into 1,988 feedback-free dialogues, including 326 test dialogues, and 6,864 feedback dialogues (1,716 in four versions, each with one feedback scneario less per dialogue). The dataset itself is available [here](https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/4181).
+In this repository, we provide the generation framework and example scripts for using the FEDI data. FEDI is the first task-oriented document-grounded dialogue dataset for learning from demographic information, user emotions and implicit user feedback. In its current version, FEDI consists of 8,852 dialogues, divided into 1,988 feedback-free dialogues, including 326 test dialogues, and 6,864 feedback dialogues (1,716 in four versions, each with one feedback scneario less per dialogue). The dataset itself is available <s>[here]()</s> (we are currently converting the data into a more accessible format - stay tuned!).
 
 <p align="center">
 <img align="center" src="resources/dialogue_example.png" alt="drawing" width="300"/>
