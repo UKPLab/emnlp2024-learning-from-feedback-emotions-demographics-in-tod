@@ -1,4 +1,4 @@
-# Learning From Emotions, Demographic Information and Implicit User Feedback in Task-Oriented Knowledge-Grounded Dialogues
+# Learning from Implicit User Feedback, Emotions and Demographic Information in Task-Oriented and Document-Grounded Dialogues
 
 <p align="center">
 <img align="center" src="resources/disclaimer.png" alt="drawing" width="800"/>
