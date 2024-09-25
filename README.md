@@ -111,13 +111,13 @@ For question answering, you have to add the _topic_ argument to the list (e.g., 
 Please reference our work as follows:
 
 ```
-@misc{petrak2024learning,
-      title={Learning from Emotions, Demographic Information and Implicit User Feedback in Task-Oriented Document-Grounded Dialogues}, 
-      author={Dominic Petrak and Thy Thy Tran and Iryna Gurevych},
-      year={2024},
-      eprint={2401.09248},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{
+  anonymous2024learning,
+  title={Learning from Implicit User Feedback, Emotions and Demographic Information in Task-Oriented Document-Grounded Dialogues},
+  author={Anonymous},
+  booktitle={The 2024 Conference on Empirical Methods in Natural Language Processing},
+  year={2024},
+  url={https://openreview.net/forum?id=WAkSqdL3f2}
 }
 ```
 
