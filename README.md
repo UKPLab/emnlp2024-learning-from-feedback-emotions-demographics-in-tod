@@ -81,8 +81,8 @@ We provide FEDI in the _dataset_ folder of this repository. It contains the dial
                 "error_scenario": 
                     {
                         "scenario": "<textual description of the error scenario (only available in feedback dialogue system utterances)>",
-                        "error_type": "<error type annotation (only available in feedback dialogue system utterances)>",
-                        "user_reaction_type: "<the assigned user reaction type (only available in feedback dialogue system utterances)>"
+                        "error_type": "<source error type (only available in feedback dialogue system utterances)>",
+                        "user_reaction_type: "<source user reaction type (only available in feedback dialogue system utterances)>"
                     },
                 "user_reaction_type": "<assigned user reaction type (only available in feedback dialogue user utterances)>",
                 "documents": [
