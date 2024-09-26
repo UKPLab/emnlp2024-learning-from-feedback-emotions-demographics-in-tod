@@ -1,4 +1,7 @@
 # Learning from Implicit User Feedback, Emotions and Demographic Information in Task-Oriented and Document-Grounded Dialogues
+[![Arxiv](https://img.shields.io/badge/Arxiv-2401.09248-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2401.09248)
+[![License](https://img.shields.io/github/license/UKPLab/ukp-project-template)](https://opensource.org/licenses/Apache-2.0)
+[![Python Versions](https://img.shields.io/badge/Python-3.10-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 
 In this repository, we provide the generation framework and example scripts for using the FEDI data. FEDI is the first task-oriented document-grounded dialogue dataset for learning from demographic information, user emotions and implicit user feedback. In its current version, FEDI consists of 8,852 dialogues, divided into 1,988 feedback-free dialogues, including 326 test dialogues, and 6,864 feedback dialogues (1,716 in four versions, each with one feedback scneario less per dialogue). The dataset itself is available [here](https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/4181).
 
@@ -124,3 +127,7 @@ Dominic Petrak (<petrak@ukp.informatik.tu-darmstadt.de>)
 ## Links
 
 [UKP Lab Homepage](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt Website](https://www.tu-darmstadt.de/index.en.jsp)
+
+## Disclaimer
+
+> This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication. 
