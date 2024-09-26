@@ -62,19 +62,46 @@ Depending on whether knowledge from a document $D_t$ is required to generate $S_
 We provide FEDI in the _dataset_ folder of this repository. It contains the dialogues in a format ready for training and inference. Each dialogue file contains a list of samples generated from the original dialogue. As introduced in the paper, we further distinguish between _feedback-free_ and _feedback_ dialogues. The _feedback_ dialogues are organized in _stages_ (_version_ in the paper). Following is the structure of the data:
 
 ```json
-[
-    {
-        "target": "<the target system utterance>",
-        "context": "<the preceding dialogue context>",
-        "documents": ["<a list of documents relevant to predict the target system utterance>"
+{
+    "filename": "<path and file identifier>",
+    "dialogue": {
+        "utterances": [
+            {
+                "intent": "",
+                "slots": [
+                    {
+                        "span_type": "<slot name>",
+                        "span": "<slot value>",
+                        "span_character_start_position": "<starting position of the slot value in the text sequence>",
+                    },
+                ],
+                "text": "<utterance>",                
+                "emotion": "<emotion annotation>",
+                "error_type": "<error type (only available in feedback dialogue system utterances)>",
+                "error_scenario": 
+                    {
+                        "scenario": "<textual description of the error scenario (only available in feedback dialogue system utterances)>",
+                        "error_type": "<error type annotation (only available in feedback dialogue system utterances)>",
+                        "user_reaction_type: "<the assigned user reaction type (only available in feedback dialogue system utterances)>"
+                    },
+                "user_reaction_type": "<assigned user reaction type (only available in feedback dialogue user utterances)>",
+                "documents": [
+                    ">plain texts from document sources (if any)>"
+                ],
+                "role": "<user or system, the speaker>"
+            },            
         ],
-        "intent": "<the target intent>",
-        "slots": "<the target slot values (belief state)>",        
-        "emotion": "<the user emotion>",        
-        "user_persona": "<the demographic information>"
-    },
-    ...
-]
+        "background_story": "<the background story of this dialogue (why does it happen?)>",
+        "demographics":
+            {
+                "gender": "<male / female>",
+                "job": "<job title>",
+                "age": "<age range>",
+                "name": "<the name of the user>",
+                "language": "<the language style of the user>"
+            }
+    }
+}
 ```
 The feedback dialogues additionally contain the feedback annotations. Another difference is that they do not provide a list of samples per file, but only one sample per file. The _test_ data in the _feedback-free_ folder are also the test data for the feedback dialogues.
 
