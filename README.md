@@ -78,10 +78,6 @@ We provide FEDI in the _dataset_ folder of this repository. It contains the dial
 ```
 The feedback dialogues additionally contain the feedback annotations. Another difference is that they do not provide a list of samples per file, but only one sample per file. The _test_ data in the _feedback-free_ folder are also the test data for the feedback dialogues.
 
-### Example Scripts
-
-We will provide our scripts for using the data as soon as we have unified and cleaned them up. In the problem formulation, we have already described how we use the data and the dataset and dialog structure has also already been explained. It should therefore already be possible to reuse the data.
-
 ## Dialogue and Annotation Generation Framework
 We provide our code for dialogue generation and annotation in the _dialogue-generation_ folder. We provide a detailed description of the steps involved in the paper. To run it, please install the packages from our _requirements.txt_ and the _dialogue-generation_ folder itself first. We used Python 3.10 for dialogue generation. The following figure gives an overview of the folder structure and dependencies:
 
@@ -104,6 +100,42 @@ python prompt_chatgpt.py \
 ```
 
 For question answering, you have to add the _topic_ argument to the list (e.g., `--topic finance`, with finance as document directory from _prompt_config.yml_). For feedback dialogue generation, you have to add the _errors_ argument, e.g., `--errors 3` to generate a dialogue with three feedback situations. We describe all arguments in _argument.py_.
+
+### Code for Training the Models
+
+This is a condensed version of the code we used for training the models for the paper. We tested it with all models in a Python 3.10. environment and did not observe any issues. If it does not work for you, please reach out!
+
+For running training, just call ```main.py``` like so:
+
+```shell
+python main.py  \
+    --pretrained_model [path from where to load a trained model] \
+    --model_path [path where to save the trained models] \
+    --epochs [number of epochs for training] \
+    --train_data [path to training data file] \
+    --eval_data [path to eval data file] \
+    --test_data [path to test data file] \
+    --data_log [where to log the data (needs to be created in advance)] \
+    --batch_size [per GPU batch size] \
+    --max_input_token [max input tokens] \
+    --max_target_token [max target tokens] \    
+    --mixed_prec [Use mixed precision to improve efficiency (we use fp16 as default; PyTorch uses fp32 as default). Value can be "fp16", "bf16", "fp8", or "no"] \
+    --num_workers [Number of workers to pre-load data faster] \
+    --experiment_name [The name of the experiment, will be used as name for saving the trained models]
+```
+
+For default values, please refer to ```arguments.py``` Besides the parameters mentioned above, it offers the following options:
+
+| Parameter | Description |
+|-----------|-------------|
+| gradient_checkpointing | If set to false, will disable gradient checkpointing (default true for Llama) |
+| freeze | Number of epochs in which to freeze the underlying Transformer |
+| user_personas| Whether or not to include personas in the input sequences|
+| emotion | Whether or not to include emotions in the input sequences |
+| error_text | Whether or not to include error text |
+|user_reaction | Whether or not to include user reaction |
+
+Please refer to the paper for the input data format.
 
 ## Citation
 
