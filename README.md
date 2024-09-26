@@ -101,8 +101,7 @@ python prompt_chatgpt.py \
 
 For question answering, you have to add the _topic_ argument to the list (e.g., `--topic finance`, with finance as document directory from _prompt_config.yml_). For feedback dialogue generation, you have to add the _errors_ argument, e.g., `--errors 3` to generate a dialogue with three feedback situations. We describe all arguments in _argument.py_.
 
-### Code for Training the Models
-
+## Code for Training the Models
 This is a condensed version of the code we used for training the models for the paper. We tested it with all models in a Python 3.10. environment and did not observe any issues. If it does not work for you, please reach out!
 
 For running training, just call ```main.py``` like so:
