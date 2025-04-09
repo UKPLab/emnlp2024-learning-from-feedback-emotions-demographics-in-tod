@@ -3,11 +3,32 @@
 [![License](https://img.shields.io/github/license/UKPLab/ukp-project-template)](https://opensource.org/licenses/Apache-2.0)
 [![Python Versions](https://img.shields.io/badge/Python-3.10-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 
-In this repository, we provide the generation framework and example scripts for using the FEDI data. FEDI is the first task-oriented document-grounded dialogue dataset for learning from demographic information, user emotions and implicit user feedback. In its current version, FEDI consists of 8,852 dialogues, divided into 1,988 feedback-free dialogues, including 326 test dialogues, and 6,864 feedback dialogues (1,716 in four versions, each with one feedback scneario less per dialogue). The dataset itself is available [here](https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/4181).
+In this repository, we provide the generation framework and example scripts for using the FEDI data. FEDI is the first task-oriented document-grounded dialogue dataset for learning from demographic information, user emotions and implicit user feedback. In its current version, FEDI consists of 8,852 dialogues, divided into 1,988 feedback-free dialogues, including 326 test dialogues, and 6,864 feedback dialogues (1,716 in four versions, each with one feedback scneario less per dialogue). The original dataset is available [here](https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/4181).
 
 <p align="center">
 <img align="center" src="resources/dialogue_example.png" alt="drawing" width="300"/>
 </p>
+
+## FEDI v2
+We are delighted to provide a new and updated version of FEDI, [FEDI v2](https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/4554). It fixes some of the issues resulting from synthetic data generation and extends the tasks and domains covered in the original dataset. In detail, FEDI v2 improves FEDI v1 as follows:
+
+1. FEDI v2 addresses the following issues in FEDI v1:
+    - Annotations for user emotions frequently use the _neutral_ signal and do not fit the dialogue context.
+    - System utterances sometimes include hallucinated user names.
+    - Task-oriented dialogues sometimes include placeholders for slot values, especially in the case of _parcel choice_ and in situations where not all slots are required to sucessfully complete a task, e.g., if the user already has a shipping box and just requires information about the shipping procedure.
+    - Knowledge-grounded dialogues frequently include hallucinated annotations from foreign domains.
+
+2. We introduce _parcel shipping_ as a new task, with the goal to guide the user thorugh the process of parcel shipping from choosing the correct shipping box to selecting a proper shipping product. to fulfill this task, the agent requires the following information: destination, weight, dimensions (of the parcel), delivery option. Based on the provided information, the agent gives advice regarding the best shipping product to choose.
+
+3. We extent the domains for knowledge-grounded question answering dialogues with the following domains:
+    - _Energy_: This domain covers questions related to _Poste Energia_ which is an Italian electricity and gas provider.
+    - _Mail_: this domain includes questions related to senting and receiving registered or insured mail, letters, and telegrams. In addition, it covers the Ialian _Follow Me_ service and personal post office boxes.
+    - _Parcel_: This domain encompasses questions converning the sending and receiving procedures of parcels with the Italian post.
+    - _Prepaid Services_: This domain consists of questions related to different prepaid cards available in Italy provided by _PostePay_, an Italian company offering a prepaid card service.
+
+For each new domain and the task of parcel shipping, FEDI v2 provides 240 feedback-free and 960 feedback-annotated (240 dialogues in four versions). The new dialogues were generated using GPT-4o, the old dialogues were improve following a semi-automatic approach.
+
+FEDI v2 was created by Nils Bez as part of his bachelor's thesis, [Learning from Feedback Situations in Task-Oriented Dialogues](https://www.informatik.tu-darmstadt.de/ukp/teaching_ukp/ukp_teaching_theses/ukp_theses_completed/index.en.jsp), supervised by Dominic Petrak and Iryna Gurevych. 
 
 ## Dataset Description
 FEDI covers four use cases for task-oriented document-grounded dialogue systems from three domains:
