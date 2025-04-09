@@ -127,7 +127,14 @@ We provide FEDI in the _dataset_ folder of this repository. It contains the dial
 The feedback dialogues additionally contain the feedback annotations. Another difference is that they do not provide a list of samples per file, but only one sample per file. The _test_ data in the _feedback-free_ folder are also the test data for the feedback dialogues.
 
 ## Dialogue and Annotation Generation Framework
-We provide our code for dialogue generation and annotation in the _dialogue-generation_ folder. We provide a detailed description of the steps involved in the paper. To run it, please install the packages from our _requirements.txt_ and the _dialogue-generation_ folder itself first. We used Python 3.10 for dialogue generation. The following figure gives an overview of the folder structure and dependencies:
+We provide our code for dialogue generation and annotation in the _dialogue-generation_ folder. We provide a detailed description of the steps involved in the paper. To run it, please install the packages from our _requirements.txt_ and the _dialogue-generation_ folder itself first using the following commands:
+
+```bash
+pip install -r requirements.txt
+pip install -e dialogue-generation
+```
+
+We used Python 3.10 for dialogue generation. The following figure gives an overview of the folder structure and dependencies:
 
 <p align="center">
 <img align="center" src="resources/dialog_generation.png" alt="drawing" width="800"/>
